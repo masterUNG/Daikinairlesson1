@@ -1,3 +1,6 @@
 <resources>
+    <!--Name of application-->
+
     <string name="app_name">Daikin air lesson1</string>
+
 </resources>
