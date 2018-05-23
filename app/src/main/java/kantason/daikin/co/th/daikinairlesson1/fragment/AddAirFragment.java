@@ -6,11 +6,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyAlert;
 
 public class AddAirFragment extends Fragment {
 
@@ -21,11 +26,52 @@ public class AddAirFragment extends Fragment {
 
         //create tool bar
         createToolBar();
-    }  //  Main metoho
+    }  //  Main metohod
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.itemSave) {
+
+//            To Do
+            checkAndSave();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void checkAndSave() {
+        EditText nameEditText = getView().findViewById(R.id.edtname);
+        EditText ipEditText = getView().findViewById(R.id.edtIPAddress);
+        EditText macEditText = getView().findViewById(R.id.edtMacAddress);
+
+        String naneString = nameEditText.getText().toString().trim();
+        String ipString = ipEditText.getText().toString().trim();
+        String macString = macEditText.getText().toString().trim();
+
+        if (naneString.isEmpty() || ipString.isEmpty() || macString.isEmpty()) {
+//            Have Space
+            MyAlert myAlert = new MyAlert(getActivity());
+            myAlert.normalDialog("Have Space","Please Fill all Blank");
+        }
+        else {
+//        No Space
+
+
+        }
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_add_air, menu);
+    }
 
     private void createToolBar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarAddAir);
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Add Air Condition");
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("Please Fill all Blank");
 
@@ -37,6 +83,8 @@ public class AddAirFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable

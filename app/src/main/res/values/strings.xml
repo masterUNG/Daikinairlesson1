@@ -3,4 +3,6 @@
 
     <string name="app_name">Daikin air lesson1</string>
 
+    <string name="th_have_Space">มีช่องว่าง</string>
+    <string name="th_message_have_space">กรุณากรอกทุกช่องสิค๊ะ</string>
 </resources>
