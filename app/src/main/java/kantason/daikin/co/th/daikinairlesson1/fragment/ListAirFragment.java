@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -50,17 +51,17 @@ public class ListAirFragment extends Fragment {
             Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM airTABLE", null);
             cursor.moveToFirst();
 
-            String[] idStrings = new String[cursor.getCount()];
-            String[] nameStrings = new String[cursor.getCount()];
-            String[] ipAddressStrings = new String[cursor.getCount()];
-            String[] macAddressStrings = new String[cursor.getCount()];
+            final String[] idStrings = new String[cursor.getCount()];
+            final String[] nameStrings = new String[cursor.getCount()];
+            final String[] ipAddressStrings = new String[cursor.getCount()];
+            final String[] macAddressStrings = new String[cursor.getCount()];
 
             for (int i = 0; i < cursor.getCount(); i += 1) {
 
                 idStrings[i] = cursor.getString(0);
-                nameStrings[i] = cursor.getString(0);
-                ipAddressStrings[i] = cursor.getString(0);
-                macAddressStrings[i] = cursor.getString(0);
+                nameStrings[i] = cursor.getString(1);
+                ipAddressStrings[i] = cursor.getString(2);
+                macAddressStrings[i] = cursor.getString(3);
 
                 Log.d("23MayV1","Name["+ i +"] ==> " + nameStrings[i]);
                 cursor.moveToNext();
@@ -69,6 +70,23 @@ public class ListAirFragment extends Fragment {
             ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.simple_list_item_1,nameStrings);
             listView.setAdapter(stringArrayAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    getActivity()
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentMainFragment,
+                                    ControlFragment.controlInstance(idStrings[position],
+                                            nameStrings[position],ipAddressStrings[position],macAddressStrings[position]))
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            });
+
 
 
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package kantason.daikin.co.th.daikinairlesson1.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,23 +13,54 @@ import android.view.ViewGroup;
 
 import kantason.daikin.co.th.daikinairlesson1.R;
 
-public class ControlFragment extends Fragment{
+public class ControlFragment extends Fragment {
 
 
-//    Expplicit
+    //    Expplicit
     private int powerAnInt = 0;
-    private  String urlAir = "http://192.168.1.108/aircon/set_control_info?";
-    private  String prePower = "pow=";
+    private String urlAir = "http://192.168.1.108/aircon/set_control_info?";
+    private String prePower = "pow=";
+    private String idString, nameString, ipAddressString, macAddressString;
+
+    public static ControlFragment controlInstance(String idString,
+                                                  String nameString,
+                                                  String ipAddressString,
+                                                  String macAddressString) {
+        ControlFragment controlFragment = new ControlFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", idString);
+        bundle.putString("Name", nameString);
+        bundle.putString("IpAddress", ipAddressString);
+        bundle.putString("MacAddress", macAddressString);
+        controlFragment.setArguments(bundle);
+        return controlFragment;
+
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+//        Getvalue Argument
+        getvalueArgument();
 
 //        OnOff Controller
         onOffController();
 
 
     }   // main method
+
+    private void getvalueArgument() {
+        idString = getArguments().getString("id");
+        nameString = getArguments().getString("Name");
+        ipAddressString = getArguments().getString("IpAddress");
+        macAddressString = getArguments().getString("MacAddress");
+
+        Log.d("23MayV1","id ==>" + idString);
+        Log.d("23MayV1","name ==>" + nameString);
+        Log.d("23MayV1","ip ==>" + ipAddressString);
+        Log.d("23MayV1","mac ==>" + macAddressString);
+    }
 
     private void onOffController() {
         final SwitchCompat switchCompat = getView().findViewById(R.id.switchOnOff);
@@ -42,7 +74,7 @@ public class ControlFragment extends Fragment{
                     powerAnInt = 0;
                 }
 
-                Log.d("21MayV1","powerAnint ==>" + powerAnInt);
+                Log.d("21MayV1", "powerAnint ==>" + powerAnInt);
             }
         });
     }
@@ -50,7 +82,7 @@ public class ControlFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_control,container,false);
+        View view = inflater.inflate(R.layout.fragment_control, container, false);
         return view;
     }
 }
