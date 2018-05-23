@@ -16,6 +16,7 @@ import android.widget.EditText;
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyAlert;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
 
 public class AddAirFragment extends Fragment {
 
@@ -57,6 +58,9 @@ public class AddAirFragment extends Fragment {
         }
         else {
 //        No Space
+            MyManage myManage = new MyManage(getActivity());
+            myManage.addValue(naneString,ipString,macString);
+            getActivity().getSupportFragmentManager().popBackStack();
 
 
         }

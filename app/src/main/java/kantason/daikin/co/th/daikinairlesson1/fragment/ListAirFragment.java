@@ -1,21 +1,32 @@
 package kantason.daikin.co.th.daikinairlesson1.fragment;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 
-public class ListAirFragment extends Fragment{
+public class ListAirFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -24,7 +35,48 @@ public class ListAirFragment extends Fragment{
 //        Create Toolbar
         createToolbar();
 
+//        Create listview
+        createListview();
+
+
     }   // Main Class
+
+    private void createListview() {
+        MyManage myManage = new MyManage(getActivity());
+        try {
+
+            SQLiteDatabase sqLiteDatabase = getActivity()
+                    .openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING, Context.MODE_PRIVATE, null);
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM airTABLE", null);
+            cursor.moveToFirst();
+
+            String[] idStrings = new String[cursor.getCount()];
+            String[] nameStrings = new String[cursor.getCount()];
+            String[] ipAddressStrings = new String[cursor.getCount()];
+            String[] macAddressStrings = new String[cursor.getCount()];
+
+            for (int i = 0; i < cursor.getCount(); i += 1) {
+
+                idStrings[i] = cursor.getString(0);
+                nameStrings[i] = cursor.getString(0);
+                ipAddressStrings[i] = cursor.getString(0);
+                macAddressStrings[i] = cursor.getString(0);
+
+                Log.d("23MayV1","Name["+ i +"] ==> " + nameStrings[i]);
+                cursor.moveToNext();
+            }
+            ListView listView = getView().findViewById(R.id.listViewAir);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_1,nameStrings);
+            listView.setAdapter(stringArrayAdapter);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -49,12 +101,12 @@ public class ListAirFragment extends Fragment{
         super.onCreateOptionsMenu(menu, inflater);
 
 
-        inflater.inflate(R.menu.menu_list_air,menu);
+        inflater.inflate(R.menu.menu_list_air, menu);
     }
 
     private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarListAir);
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Air Conditioning");
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("Daikin Air Condition");
 
@@ -64,7 +116,7 @@ public class ListAirFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_air,container,false);
+        View view = inflater.inflate(R.layout.fragment_list_air, container, false);
         return view;
     }
 
