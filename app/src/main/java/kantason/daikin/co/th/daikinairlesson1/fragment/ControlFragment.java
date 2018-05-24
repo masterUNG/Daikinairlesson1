@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
+import kantason.daikin.co.th.daikinairlesson1.utility.PostData;
 
 public class ControlFragment extends Fragment {
 
@@ -26,6 +28,8 @@ public class ControlFragment extends Fragment {
     private String urlAir = "http://192.168.1.108/aircon/set_control_info?";
     private String prePower = "pow=";
     private String idString, nameString, ipAddressString, macAddressString;
+    private String contentIOTString ,powString, stempString, f_rateString, f_dirString;
+
 
     public static ControlFragment controlInstance(String idString,
                                                   String nameString,
@@ -49,6 +53,9 @@ public class ControlFragment extends Fragment {
 //        Getvalue Argument
         getvalueArgument();
 
+//        GetData IOT
+        getDataIOT();
+
 //        Create toolbar
 
         createToolbar();
@@ -59,6 +66,21 @@ public class ControlFragment extends Fragment {
 
 
     }   // main method
+
+    private void getDataIOT() {
+        try {
+
+            PostData postData = new PostData(getActivity());
+            postData.execute(contentIOTString);
+
+            String jsonString = postData.get();
+            Log.d("24MayV2","json = " + jsonString);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,6 +132,11 @@ public class ControlFragment extends Fragment {
         nameString = getArguments().getString("Name");
         ipAddressString = getArguments().getString("IpAddress");
         macAddressString = getArguments().getString("MacAddress");
+
+        MyConstant myConstant = new MyConstant();
+        contentIOTString = "http://" + ipAddressString +myConstant.getUrlInfoString();
+
+        Log.d("24MayV2","ContentIOT = " + contentIOTString);
 
         Log.d("23MayV1","id ==>" + idString);
         Log.d("23MayV1","name ==>" + nameString);
