@@ -9,6 +9,9 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -57,6 +60,27 @@ public class ControlFragment extends Fragment {
 
     }   // main method
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.itemSetup) {
+//            To Do
+
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+
+        inflater.inflate(R.menu.menu_control,menu);
+    }
+
     private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarControl);
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
@@ -72,6 +96,8 @@ public class ControlFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+
+        setHasOptionsMenu(true);
     }
 
     private void getvalueArgument() {
