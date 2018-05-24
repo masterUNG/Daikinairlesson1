@@ -14,6 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
@@ -28,7 +35,7 @@ public class ControlFragment extends Fragment {
     private String urlAir = "http://192.168.1.108/aircon/set_control_info?";
     private String prePower = "pow=";
     private String idString, nameString, ipAddressString, macAddressString;
-    private String contentIOTString ,powString, stempString, f_rateString, f_dirString;
+    private String contentIOTString ,powString, stempString, f_rateString, f_dirString ,modeString;
 
 
     public static ControlFragment controlInstance(String idString,
@@ -65,7 +72,41 @@ public class ControlFragment extends Fragment {
         onOffController();
 
 
+
     }   // main method
+
+    private void fanRateController() {
+
+        int indexInt = 6;
+        int f_rateInt = Integer.parseInt(f_rateString.trim());
+        if (f_rateString.equals("A")) {
+            indexInt = 0;
+        } else if (f_rateString.equals("B")) {
+            indexInt = 1;
+        }else if (f_rateString.equals("3")) {
+            indexInt = 2;
+        }else if (f_rateString.equals("4")) {
+            indexInt = 3;
+        }else if (f_rateString.equals("5")) {
+            indexInt = 4;
+        }else if (f_rateString.equals("6")) {
+            indexInt = 5;
+        }else  {
+            indexInt = 6;
+        }
+
+
+        Spinner spinner = getView().findViewById(R.id.spinnerRate);
+
+        MyConstant myConstant = new MyConstant();
+        String[] strings = myConstant.getFrateStrings();
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+
+        spinner.setSelection(indexInt);
+
+    }
 
     private void getDataIOT() {
         try {
@@ -74,11 +115,57 @@ public class ControlFragment extends Fragment {
             postData.execute(contentIOTString);
 
             String jsonString = postData.get();
+
+            jsonString = "[" + jsonString + "]";
             Log.d("24MayV2","json = " + jsonString);
+
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+            String paramString = jsonObject.getString("param");
+            paramString = "[" + paramString + "]";
+
+            Log.d("24MayV2","paramString = " + paramString);
+
+            JSONArray jsonArray1 = new JSONArray(paramString);
+            JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
+
+            powString = jsonObject1.getString("pow");
+            f_rateString = jsonObject1.getString("f_rate");
+            f_dirString = jsonObject1.getString("f_dir");
+            stempString = jsonObject1.getString("stemp");
+            modeString = jsonObject1.getString("mode");
+
+            Log.d("24MayV3","POW =" + powString);
+            Log.d("24MayV3","f_rate =" + f_rateString);
+            Log.d("24MayV3","f_dir =" + f_dirString);
+            Log.d("24MayV3","stemp =" + stempString);
+            Log.d("24MayV3","mode =" + modeString);
+
+            // Show Power
+            SwitchCompat aSwitch = getView().findViewById(R.id.switchOnOff);
+            if (Integer.parseInt(powString) == 1) {
+                Log.d("24MayV4", "ON");
+                aSwitch.setChecked(true);
+            } else {
+                Log.d("24MayV4", "OFF");
+                aSwitch.setChecked(false);
+            }
+
+            //Show mode
+            String[] modeStrings = new String[]{"FAN","Cool","DRY"};
+            TextView textView = getView().findViewById(R.id.txtMode);
+            textView.setText(modeStrings[Integer.parseInt(modeString.trim())]);
+
+            //        FanRate Controller
+            fanRateController();
+
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            Log.d("24MayV4","e =" + e.toString());
+
         }
     }
 
