@@ -1,5 +1,6 @@
 package kantason.daikin.co.th.daikinairlesson1.fragment;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,8 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 
 public class EditAndDelete extends Fragment {
@@ -36,7 +40,7 @@ public class EditAndDelete extends Fragment {
         bundle.putString("id", idString);
         bundle.putString("Name", nameString);
         bundle.putString("IpAddress", ipAddressString);
-        bundle.putString("Macaddress", macAddressString);
+        bundle.putString("MacAddress", macAddressString);
         editAndDelete.setArguments(bundle);
         return editAndDelete;
     }
@@ -61,22 +65,75 @@ public class EditAndDelete extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.itemDelete) {
+
             deleteItem();
 
             return true;
         }
         if (item.getItemId() == R.id.itemEdit) {
 
+            editItim();
 
             return true;
         }
 
 
-
         return super.onOptionsItemSelected(item);
 
 
-        }
+    }
+
+    private void editItim() {
+
+        nameString = nameEditAText.getText().toString().trim();
+        ipAddressString = ipAddressEditText.getText().toString().trim();
+        macAddressString = macAddressEditText.getText().toString().trim();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setIcon(R.drawable.ic_action_name);
+        builder.setTitle("Confirm Edit");
+        builder.setMessage("Name : " + nameString + "\n" +
+                "IP Address : " + ipAddressString + "\n" +
+                "mac Address :" + macAddressString);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                SQLiteDatabase sqLiteDatabase = getActivity()
+                        .openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING, Context.MODE_PRIVATE, null);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("Name", nameString);
+                contentValues.put("IPAddress", ipAddressString);
+                contentValues.put("MacAddress", macAddressString);
+
+                sqLiteDatabase.update("airTABLE",contentValues,
+                        "id" + "=" + idString,null);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack(null,fragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentMainFragment,new ListAirFragment())
+                        .commit();
+
+                dialog.dismiss();
+
+            }   // Onclick
+        });
+        builder.show();
+
+
+    }
 
     private void deleteItem() {
 
@@ -95,15 +152,16 @@ public class EditAndDelete extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                SQLiteDatabase sqLiteDatabase = getActivity()
-                        .openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
-                                Context.MODE_PRIVATE, null);
-                sqLiteDatabase.delete("airTABLE",
-                        "id" + "=" + idString, null);
+                myDelete();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack(null,fragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
 
                 getActivity().getSupportFragmentManager().beginTransaction().
                         replace(R.id.contentMainFragment,
-                        new ListAirFragment())
+                                new ListAirFragment())
                         .commit();
 
                 dialog.dismiss();
@@ -114,17 +172,25 @@ public class EditAndDelete extends Fragment {
 
     }
 
+    private void myDelete() {
+        SQLiteDatabase sqLiteDatabase = getActivity()
+                .openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
+                        Context.MODE_PRIVATE, null);
+        sqLiteDatabase.delete("airTABLE",
+                "id" + "=" + idString, null);
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_edit_and_delete,menu);
+        inflater.inflate(R.menu.menu_edit_and_delete, menu);
 
     }
 
     private void cerateToolbar() {
-        Toolbar toolbar =getView().findViewById(R.id.toolbarAddAir);
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        Toolbar toolbar = getView().findViewById(R.id.toolbarAddAir);
+        ((MainActivity) getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(nameString);
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle("Edit and Delete");
         ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
@@ -153,6 +219,10 @@ public class EditAndDelete extends Fragment {
         nameString = getArguments().getString("Name");
         ipAddressString = getArguments().getString("IpAddress");
         macAddressString = getArguments().getString("MacAddress");
+
+
+        Log.d("24MayV1","Mac =" + macAddressString);
+
     }
 
     @Nullable
