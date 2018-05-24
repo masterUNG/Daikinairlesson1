@@ -26,16 +26,18 @@ import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
 import kantason.daikin.co.th.daikinairlesson1.utility.PostData;
+import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class ControlFragment extends Fragment {
 
 
     //    Expplicit
     private int powerAnInt = 0;
-    private String urlAir = "http://192.168.1.108/aircon/set_control_info?";
-    private String prePower = "pow=";
+
     private String idString, nameString, ipAddressString, macAddressString;
     private String contentIOTString ,powString, stempString, f_rateString, f_dirString ,modeString;
+
+    private SwitchCompat aSwitch;
 
 
     public static ControlFragment controlInstance(String idString,
@@ -143,7 +145,7 @@ public class ControlFragment extends Fragment {
             Log.d("24MayV3","mode =" + modeString);
 
             // Show Power
-            SwitchCompat aSwitch = getView().findViewById(R.id.switchOnOff);
+            aSwitch = getView().findViewById(R.id.switchOnOff);
             if (Integer.parseInt(powString) == 1) {
                 Log.d("24MayV4", "ON");
                 aSwitch.setChecked(true);
@@ -157,9 +159,14 @@ public class ControlFragment extends Fragment {
             TextView textView = getView().findViewById(R.id.txtMode);
             textView.setText(modeStrings[Integer.parseInt(modeString.trim())]);
 
-            //        FanRate Controller
+            // FanRate Controller
             fanRateController();
 
+//            fanDirControoler
+            fanDirControoler();
+
+//            Show temp
+            showTemp();
 
 
         } catch (Exception e) {
@@ -167,6 +174,47 @@ public class ControlFragment extends Fragment {
             Log.d("24MayV4","e =" + e.toString());
 
         }
+    }
+
+    private void showTemp() {
+        TextView textView1 = getView().findViewById(R.id.txtTemp);
+        textView1.setText(stempString + "  " + getString(R.string.unit_temp));
+
+        CircularSeekBar circularSeekBar = getView().findViewById(R.id.circularSeekbar);
+
+        float currentFloat = (float)((Float.parseFloat(stempString.trim())-18) * 6.8);
+
+        circularSeekBar.setProgress(currentFloat);
+
+        circularSeekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(CircularSeekBar circularSeekBar, float progress, boolean fromUser) {
+                Log.d("24MayV5","Progress = " + progress);
+            }
+
+            @Override
+            public void onStopTrackingTouch(CircularSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(CircularSeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void fanDirControoler() {
+
+        Spinner spinner = getView().findViewById(R.id.spinnerdir);
+        MyConstant myConstant = new MyConstant();
+                String[] strings = myConstant.getfDirStrings();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+        spinner.setSelection(Integer.parseInt(f_dirString.trim()));
+
     }
 
     @Override
@@ -232,20 +280,47 @@ public class ControlFragment extends Fragment {
     }
 
     private void onOffController() {
-        final SwitchCompat switchCompat = getView().findViewById(R.id.switchOnOff);
-        switchCompat.setOnClickListener(new View.OnClickListener() {
+
+
+
+        aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (switchCompat.isChecked()) {
+                MyConstant myConstant = new MyConstant();
+
+                if (aSwitch.isChecked()) {
                     powerAnInt = 1;
                 } else {
                     powerAnInt = 0;
                 }
 
                 Log.d("21MayV1", "powerAnint ==>" + powerAnInt);
-            }
+                String urlOnOffString = "http://" + ipAddressString + myConstant.getUrlSetPowerString() + Integer.toString(powerAnInt);
+                Log.d("24MV1","urlOnOffString = " +urlOnOffString);
+
+//                MyThread IOT
+                myThreadIOT(urlOnOffString);
+
+            }   //Onclick
+
         });
+
+
+    }   // onoff controler
+
+    private void myThreadIOT(String urlString) {
+
+        try {
+
+            PostData postData = new PostData(getActivity());
+            postData.execute(urlString);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Nullable
