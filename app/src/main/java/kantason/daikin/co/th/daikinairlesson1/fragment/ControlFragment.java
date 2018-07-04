@@ -82,6 +82,12 @@ public class ControlFragment extends Fragment {
 //        OnOff Controller
         onOffController();
 
+//        settempup
+        settempup();
+
+//        settempdown
+        settempdown();
+
 
 //        FAN Crontroller
         FANCrontroller();
@@ -98,6 +104,64 @@ public class ControlFragment extends Fragment {
 
 
     }   // main method
+
+    private void settempdown() {
+
+
+
+            ImageView imageView = getView().findViewById(R.id.imvminus);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    int stempInt = Integer.parseInt(stempString.trim());
+                    int indexInttemp = stempInt - 1 ;
+                    String tempdownString = Integer.toString(indexInttemp);
+
+                    MyConstant myConstant = new MyConstant();
+                    String urlString = "http://"+ ipAddressString +
+                            myConstant.getUrlSettempString() + tempdownString;
+                    Log.d("0407","urlstring = " + urlString);
+
+                    myThreadIOT(urlString);
+                    // sent and getdata tempshow
+                    getDataIOT();
+                }
+            });
+
+
+
+
+    }
+
+    private void settempup() {
+
+
+            ImageView imageView = getView().findViewById(R.id.imvplus);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    int stempInt = Integer.parseInt(stempString.trim());
+                    int indexInttemp = stempInt + 1 ;
+                    String tempupString = Integer.toString(indexInttemp);
+
+                    MyConstant myConstant = new MyConstant();
+                    String urlString = "http://"+ ipAddressString +
+                            myConstant.getUrlSettempString() + tempupString;
+                    Log.d("0407","urlstring = " + urlString);
+
+                    myThreadIOT(urlString);
+                // sent and getdata tempshow
+                    getDataIOT();
+
+                }
+            });
+
+
+
+    }
 
     private void getroomtemp() {
         try {
