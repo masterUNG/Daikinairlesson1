@@ -6,6 +6,7 @@ public class MyConstant {
     private  String urlInfoString = "/aircon/get_control_info";
     private String urlSetPowerString = "/aircon/set_control_info?pow=";
     private String urlSetModeString = "/aircon/set_control_info?mode=";
+    private String urlgetroomtemp = "/aircon/get_sensor_info";
 
 
 
@@ -29,8 +30,7 @@ public class MyConstant {
         return frateStrings;
     }
 
-    public String getUrlInfoString() {
+    public String getUrlInfoString() { return urlInfoString; }
 
-        return urlInfoString;
-    }
+    public String geturlgetroomtemp() { return urlgetroomtemp; }
 }   // main class

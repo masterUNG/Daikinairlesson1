@@ -39,8 +39,14 @@ public class ListAirFragment extends Fragment {
 //        Create listview
         createListview();
 
-
+//        createSwitch
+        createSwitch();
     }   // Main Class
+
+    private void createSwitch() {
+        //createSwitch;
+    }
+
 
     private void createListview() {
         MyManage myManage = new MyManage(getActivity());

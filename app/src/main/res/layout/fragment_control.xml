@@ -67,56 +67,72 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <!--On/OFF Switch-->
 
+                                   </RelativeLayout>
 
-                </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="284dp"
+                android:layout_gravity="center_horizontal">
+
+
+                <TextView
+                    android:id="@+id/txtroomTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/unit_temp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <!--Temp graphic-->
                 <me.tankery.lib.circularseekbar.CircularSeekBar
                     android:id="@+id/circularSeekbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cs_circle_stroke_width="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    app:cs_circle_stroke_width="38dp"
                     app:cs_circle_style="butt"
                     app:cs_end_angle="45"
-                    app:cs_pointer_stroke_width="40dp"
+                    app:cs_pointer_stroke_width="35dp"
                     app:cs_start_angle="-225" />
                 <!--Parnal  2  button-->
                 <LinearLayout
-                    android:paddingBottom="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
 
                     <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/plus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:src="@drawable/plus" />
 
                     <ImageView
-                        android:layout_marginLeft="15dp"
-                        android:src="@drawable/minus"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/minus" />
 
 
                 </LinearLayout>
                 <!--Show temp-->
+
                 <TextView
                     android:id="@+id/txtTemp"
-                    android:layout_centerInParent="true"
-                    android:textStyle="bold"
-                    android:textSize="70sp"
-                    android:text="@string/unit_temp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/unit_temp"
+                    android:textSize="60dp"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <!--Parnal  3  button-->
@@ -145,6 +161,30 @@
                     android:src="@drawable/dry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <!--text Spinner Swing-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h3"
+                    android:text="           Fan Status"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h3"
+                    android:text="           Swing Mode"
+                    android:layout_width="165dp"
+                    android:layout_height="match_parent" />
 
 
             </LinearLayout>

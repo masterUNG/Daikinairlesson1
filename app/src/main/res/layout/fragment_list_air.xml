@@ -12,10 +12,31 @@
         android:layout_height="?attr/actionBarSize"/>
 
     <!--<Content-->
-    <ListView
-        android:id="@+id/listViewAir"
+    <RelativeLayout
+        android:padding="@dimen/padding"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/listViewAir"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:orientation="horizontal">-->
+        <!--<android.support.v7.widget.SwitchCompat-->
+            <!--android:id="@+id/switchOnlist1"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+        <!--</LinearLayout>-->
+
+
+
+
+
+    </RelativeLayout>
+
 
 
 

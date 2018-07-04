@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -36,7 +37,9 @@ public class ControlFragment extends Fragment {
     private int powerAnInt = 0;
 
     private String idString, nameString, ipAddressString, macAddressString;
-    private String contentIOTString ,powString, stempString, f_rateString, f_dirString ,modeString;
+    private String contentroomtemp,contentIOTString ,powString, stempString, f_rateString,
+            f_dirString ,modeString,roomtempString;
+    private  int indexInt ;
 
     private SwitchCompat aSwitch;
     private TextView textView;
@@ -69,6 +72,8 @@ public class ControlFragment extends Fragment {
 //        GetData IOT
         getDataIOT();
 
+//        getroomtemp
+        getroomtemp();
 //        Create toolbar
 
         createToolbar();
@@ -85,7 +90,99 @@ public class ControlFragment extends Fragment {
 //        Cool Controoler
         coolControoler();
 
+//        dryControler
+        dryController();
+
+//        spinRate
+        spinRate();
+
+
     }   // main method
+
+    private void getroomtemp() {
+        try {
+
+            PostData postData = new PostData(getActivity());
+            postData.execute(contentroomtemp);
+
+            String jsontempString = postData.get();
+
+            jsontempString = "[" + jsontempString + "]";
+            Log.d("24MayV2","json = " + jsontempString);
+
+            JSONArray jsontempArray = new JSONArray(jsontempString);
+            JSONObject jsontempObject = jsontempArray.getJSONObject(0);
+
+            String paramStringtemp = jsontempObject.getString("param");
+            paramStringtemp = "[" + paramStringtemp + "]";
+
+            Log.d("24MayV2","paramStringtemp = " + paramStringtemp);
+
+            JSONArray jsonArray1 = new JSONArray(paramStringtemp);
+            JSONObject jsonObjecttemp = jsonArray1.getJSONObject(0);
+
+            roomtempString = jsonObjecttemp.getString("htemp");
+
+
+            Log.d("24MayV3","Htemp =" + roomtempString);
+
+
+//            showroomtemp
+
+            showroomtemp();
+
+        }
+        catch (Exception a) {
+            //e.printStackTrace();
+            Log.d("24MayV4","e =" + a.toString());
+
+        }
+    }
+
+    private void showroomtemp() {
+
+        TextView textViewtemp = getView().findViewById(R.id.txtroomTemp);
+        textViewtemp.setText(roomtempString + "  " + getString(R.string.unit_rtemp));
+
+    }
+
+    private void spinRate() {
+        //        spinRate
+        Spinner spinner = getView().findViewById(R.id.spinnerRate);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void dryController() {
+
+        ImageView imageView = getView().findViewById(R.id.imvDry);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyConstant myConstant = new MyConstant();
+                String urlString = "http://"+ ipAddressString +
+                        myConstant.getUrlSetModeString() + "2";
+                textView.setText(modeStrings[2]);
+
+                myThreadIOT(urlString);
+
+
+            }
+        });
+
+    }
 
     private void coolControoler() {
         ImageView imageView = getView().findViewById(R.id.imvCool);
@@ -125,8 +222,8 @@ public class ControlFragment extends Fragment {
 
     private void fanRateController() {
 
-        int indexInt = 6;
-        int f_rateInt = Integer.parseInt(f_rateString.trim());
+           indexInt = 6;
+        //int f_rateInt = Integer.parseInt(f_rateString.trim());
         if (f_rateString.equals("A")) {
             indexInt = 0;
         } else if (f_rateString.equals("B")) {
@@ -205,14 +302,18 @@ public class ControlFragment extends Fragment {
             textView = getView().findViewById(R.id.txtMode);
             textView.setText(modeStrings[Integer.parseInt(modeString.trim())]);
 
-            // FanRate Controller
-            fanRateController();
+//            Show temp
+            showTemp();
 
 //            fanDirControoler
             fanDirControoler();
 
-//            Show temp
-            showTemp();
+//             FanRate Controller
+            fanRateController();
+
+
+
+
 
 
         } catch (Exception e) {
@@ -228,7 +329,7 @@ public class ControlFragment extends Fragment {
 
         CircularSeekBar circularSeekBar = getView().findViewById(R.id.circularSeekbar);
 
-        float currentFloat = (float)((Float.parseFloat(stempString.trim())-18) * 6.8);
+        float currentFloat = (float)((Float.parseFloat(stempString.trim())-18) * 7.1428572);
 
         circularSeekBar.setProgress(currentFloat);
 
@@ -314,8 +415,11 @@ public class ControlFragment extends Fragment {
         ipAddressString = getArguments().getString("IpAddress");
         macAddressString = getArguments().getString("MacAddress");
 
+        MyConstant myConstantroomtemp = new MyConstant();
+        contentroomtemp  = "http://" + ipAddressString +myConstantroomtemp.geturlgetroomtemp();
         MyConstant myConstant = new MyConstant();
         contentIOTString = "http://" + ipAddressString +myConstant.getUrlInfoString();
+
 
         Log.d("24MayV2","ContentIOT = " + contentIOTString);
 
