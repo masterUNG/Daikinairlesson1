@@ -8,6 +8,9 @@ public class MyConstant {
     private String urlSetModeString = "/aircon/set_control_info?mode=";
     private String urlSettempString = "/aircon/set_control_info?stemp=";
     private String urlgetroomtemp = "/aircon/get_sensor_info";
+    private String urlSetfrateString = "/aircon/set_control_info?f_rate=";
+    private String urlSetfdirString = "/aircon/set_control_info?f_dir=";
+
 
 
 
@@ -16,6 +19,10 @@ public class MyConstant {
     private String[] fDirStrings = new String[]{"OFF","Vertical","Horizontal","3D"};
 
     public String getUrlSetModeString() { return urlSetModeString; }
+
+    public String getUrlSetfrateString() { return urlSetfrateString; }
+
+    public String getUrlSetfdirString() { return urlSetfdirString; }
 
     public String getUrlSettempString() { return urlSettempString; }
 

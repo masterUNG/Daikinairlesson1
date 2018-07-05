@@ -38,7 +38,7 @@ public class ControlFragment extends Fragment {
 
     private String idString, nameString, ipAddressString, macAddressString;
     private String contentroomtemp,contentIOTString ,powString, stempString, f_rateString,
-            f_dirString ,modeString,roomtempString;
+            f_dirString ,modeString,roomtempString,frateS,fdirS;
     private  int indexInt ;
 
     private SwitchCompat aSwitch;
@@ -102,8 +102,53 @@ public class ControlFragment extends Fragment {
 //        spinRate
         spinRate();
 
+//        Spindir
+        spindir();
 
     }   // main method
+
+    private void spindir() {
+        Spinner spinner = getView().findViewById(R.id.spinnerdir);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String fdir = parent.getItemAtPosition(position).toString();
+                Log.d("0507V1","selectitem =" + fdir);
+
+
+                if (fdir.equals("OFF")) {
+                    fdirS = "0";
+                } else if (fdir.equals("Vertical")) {
+                    fdirS = "1";
+                } else if (fdir.equals("Horizontal")) {
+                    fdirS = "2";
+                }else  {
+                    fdirS = "3";
+                }
+
+                if (fdirS.equals(f_dirString)) {
+
+                }else {
+                    MyConstant myConstant = new MyConstant();
+                    String urlString = "http://" + ipAddressString +
+                            myConstant.getUrlSetfdirString() + fdirS;
+                    Log.d("0507V2", "urlsent =" + urlString);
+
+
+                    myThreadIOT(urlString);
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
 
     private void settempdown() {
 
@@ -216,8 +261,39 @@ public class ControlFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String frate = parent.getItemAtPosition(position).toString();
+                Log.d("0507V1","selectitem =" + frate);
 
-                
+
+                if (frate.equals("Auto")) {
+                    frateS = "A";
+                } else if (frate.equals("Silent")) {
+                    frateS = "B";
+                } else if (frate.equals("Level 1")) {
+                    frateS = "3";
+                } else if (frate.equals("Level 2")) {
+                    frateS = "4";
+                } else if (frate.equals("Level 3")) {
+                    frateS = "5";
+                } else if (frate.equals("Level 4")) {
+                    frateS = "6";
+                }else  {
+                    frateS = "7";
+                }
+
+                if (frateS.equals(f_rateString)) {
+
+                }else {
+                    MyConstant myConstant = new MyConstant();
+                    String urlString = "http://" + ipAddressString +
+                            myConstant.getUrlSetfrateString() + frateS;
+                    Log.d("0507V2", "urlsent =" + urlString);
+
+
+                    myThreadIOT(urlString);
+
+                }
+
 
             }
 
