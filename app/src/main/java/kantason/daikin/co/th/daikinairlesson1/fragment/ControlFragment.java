@@ -44,7 +44,7 @@ public class ControlFragment extends Fragment {
     private SwitchCompat aSwitch;
     private TextView textView;
 
-    private String[] modeStrings = new String[]{"FAN","Cool","DRY"};
+    private String[] modeStrings = new String[]{"FAN","Cool","DRY","No Connection"};
 
 
     public static ControlFragment controlInstance(String idString,
@@ -216,6 +216,12 @@ public class ControlFragment extends Fragment {
 
             String jsontempString = postData.get();
 
+//            if (jsontempString.equals(null)){
+//
+//                jsontempString = "[{"+"ret"+":"+"OK"+","+"param"+":"+"{"+"htemp"+":"+"00"+","+"otemp"+":"+"31"+","+"err"+":"+"00"+"}}]";
+//
+//            }
+
             jsontempString = "[" + jsontempString + "]";
             Log.d("24MayV2","json = " + jsontempString);
 
@@ -243,7 +249,17 @@ public class ControlFragment extends Fragment {
         }
         catch (Exception a) {
             //e.printStackTrace();
-            Log.d("24MayV4","e =" + a.toString());
+            Log.d("24MayV4","a =" + a.toString());
+
+        roomtempString = "00";
+
+
+        Log.d("24MayV3","Htemp =" + roomtempString);
+
+
+//            showroomtemp
+
+        showroomtemp();
 
         }
     }
@@ -401,8 +417,18 @@ public class ControlFragment extends Fragment {
 
             String jsonString = postData.get();
 
+
+//            if (jsonString.equals(null)){
+//
+//                jsonString = "["+"ret"+":"+"OK"+","+"param"+":"+"{"+"pow"+":"+"0"+","+"mode"+":"+"3"+","+"stemp"+":"+"25"+","+"f_rate"+":"+"A"+","+"f_dir"+":"+"0"+","+"alert"+":"+"0"+"}]";
+//
+//            }
+
             jsonString = "[" + jsonString + "]";
+
             Log.d("24MayV2","json = " + jsonString);
+
+
 
             JSONArray jsonArray = new JSONArray(jsonString);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -456,9 +482,46 @@ public class ControlFragment extends Fragment {
 
 
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             //e.printStackTrace();
             Log.d("24MayV4","e =" + e.toString());
+
+            powString = "0";
+            f_rateString = "A";
+            f_dirString = "0";
+            stempString = "00";
+            modeString = "3";
+
+            Log.d("24MayV3","POW =" + powString);
+            Log.d("24MayV3","f_rate =" + f_rateString);
+            Log.d("24MayV3","f_dir =" + f_dirString);
+            Log.d("24MayV3","stemp =" + stempString);
+            Log.d("24MayV3","mode =" + modeString);
+
+            // Show Power
+            aSwitch = getView().findViewById(R.id.switchOnOff);
+            if (Integer.parseInt(powString) == 1) {
+                Log.d("24MayV4", "ON");
+                aSwitch.setChecked(true);
+            } else {
+                Log.d("24MayV4", "OFF");
+                aSwitch.setChecked(false);
+            }
+
+            //Show mode
+
+            textView = getView().findViewById(R.id.txtMode);
+            textView.setText(modeStrings[Integer.parseInt(modeString.trim())]);
+
+//            Show temp
+            showTemp();
+
+//            fanDirControoler
+            fanDirControoler();
+
+//             FanRate Controller
+            fanRateController();
 
         }
     }
