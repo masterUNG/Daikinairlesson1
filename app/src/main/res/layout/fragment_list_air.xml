@@ -12,24 +12,69 @@
         android:layout_height="?android:attr/actionBarSize"/>
 
     <!--<Content-->
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:padding="@dimen/padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/listViewAir"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
 
-        <!--<android.support.v7.widget.SwitchCompat-->
-            <!--android:id="@+id/switchOnlist1"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_toRightOf="@+id/listViewAir"/>-->
-        <!--</LinearLayout>-->
+        <!--tittle-->
+        <LinearLayout
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <!--title-->
+            <ListView
+                android:id="@+id/listViewAir"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <!--Switch group-->
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_weight="2"
+          android:layout_width="0dp"
+          android:layout_height="match_parent">
+          <!--Off   -->
+          <LinearLayout
+              android:layout_weight="1"
+              android:layout_alignParentRight="true"
+              android:orientation="horizontal"
+              android:layout_width="0dp"
+              android:layout_height="match_parent">
+
+              <!--Off-->
+              <ListView
+                  android:id="@+id/listViewAirOff"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"/>
+
+
+
+
+
+          </LinearLayout>
+
+          <!--On-->
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="match_parent">
+              <!--on-->
+              <ListView
+                  android:id="@+id/listViewAirOn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="match_parent"/>
+          </LinearLayout>
+      </LinearLayout>
+
+
         
-    </RelativeLayout>
+    </LinearLayout>
 
 
 

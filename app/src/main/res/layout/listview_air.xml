@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:padding="@dimen/padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--Title-->
+        <TextView
+            android:id="@+id/txtTitle"
+            android:textStyle="bold"
+            android:textSize="@dimen/h1"
+            android:text="Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--Button Group-->
+        <!--<LinearLayout-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imvoff"-->
+                <!--android:src="@drawable/ic_action_switch_off"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imvon"-->
+                <!--android:src="@drawable/ic_action_switch_on"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+
+        <!--</LinearLayout>-->
+    </RelativeLayout>
+
+</LinearLayout>

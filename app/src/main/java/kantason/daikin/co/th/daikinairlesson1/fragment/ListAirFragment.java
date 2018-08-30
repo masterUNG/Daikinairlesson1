@@ -24,10 +24,17 @@ import java.util.ArrayList;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.ListAirAdapter;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
+import kantason.daikin.co.th.daikinairlesson1.utility.PostData;
+import kantason.daikin.co.th.daikinairlesson1.utility.SwitchAdapter;
 
 public class ListAirFragment extends Fragment {
+
+    private  int amountAnInt;
+    private String[] idStrings,nameStrings,ipAddressStrings, macAddressStrings;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -39,12 +46,71 @@ public class ListAirFragment extends Fragment {
 //        Create listview
         createListview();
 
-//        createSwitch
-        createSwitch();
-    }   // Main Class
 
-    private void createSwitch() {
-        //createSwitch;
+//        Switch Off
+        switchOff();
+
+//        SwitchOn
+        switchOn();
+
+    }   // Main method
+
+    private void myThreadIOT(String urlString) {
+
+        try {
+
+            PostData postData = new PostData(getActivity());
+            postData.execute(urlString);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void switchOn() {
+        ListView listView =getView().findViewById(R.id.listViewAirOn);
+        SwitchAdapter switchAdapter = new SwitchAdapter(getActivity(),
+                R.drawable.ic_action_switch_on,amountAnInt);
+        listView.setAdapter(switchAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MyConstant myConstant = new MyConstant();
+                String urlString = "http://"+ ipAddressStrings[position] +
+                        myConstant.getUrlSetPowerString() + "1";
+                Log.d("30AugV1", "url ==" + urlString);
+
+                myThreadIOT(urlString);
+
+            }
+        });
+    }
+
+    private void switchOff() {
+        ListView listView = getView().findViewById(R.id.listViewAirOff);
+        SwitchAdapter switchAdapter = new SwitchAdapter(getActivity(),
+                R.drawable.ic_action_switch_off,amountAnInt);
+        listView.setAdapter(switchAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                MyConstant myConstant = new MyConstant();
+                String urlString = "http://"+ ipAddressStrings[position] +
+                        myConstant.getUrlSetPowerString() + "0";
+                Log.d("30AugV1", "url ==" + urlString);
+
+                myThreadIOT(urlString);
+
+            }
+        });
+
+
     }
 
 
@@ -57,10 +123,12 @@ public class ListAirFragment extends Fragment {
             Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM airTABLE", null);
             cursor.moveToFirst();
 
-            final String[] idStrings = new String[cursor.getCount()];
-            final String[] nameStrings = new String[cursor.getCount()];
-            final String[] ipAddressStrings = new String[cursor.getCount()];
-            final String[] macAddressStrings = new String[cursor.getCount()];
+             idStrings = new String[cursor.getCount()];
+             nameStrings = new String[cursor.getCount()];
+             ipAddressStrings = new String[cursor.getCount()];
+             macAddressStrings = new String[cursor.getCount()];
+
+            amountAnInt = cursor.getCount();
 
             for (int i = 0; i < cursor.getCount(); i += 1) {
 
@@ -73,9 +141,19 @@ public class ListAirFragment extends Fragment {
                 cursor.moveToNext();
             }
             ListView listView = getView().findViewById(R.id.listViewAir);
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1,nameStrings);
-            listView.setAdapter(stringArrayAdapter);
+
+//            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+//                    android.R.layout.simple_list_item_1,nameStrings);
+//            listView.setAdapter(stringArrayAdapter);
+
+            ArrayList<String> stringArrayList = new ArrayList<>();
+            for (int i=0;i<nameStrings.length;i+=1) {
+                stringArrayList.add(nameStrings[i]);
+
+            }
+            ListAirAdapter listAirAdapter = new ListAirAdapter(getActivity(),stringArrayList);
+            listView.setAdapter(listAirAdapter);
+
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
