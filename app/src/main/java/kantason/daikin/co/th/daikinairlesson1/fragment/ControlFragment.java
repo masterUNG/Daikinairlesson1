@@ -105,7 +105,28 @@ public class ControlFragment extends Fragment {
 //        Spindir
         spindir();
 
+//        Scduld Controller
+        scduldController();
+
+
     }   // main method
+
+    private void scduldController() {
+        TextView textView = getView().findViewById(R.id.txtscdule);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentMainFragment, SceduleFragment.sceduleInstance(idString,nameString,ipAddressString,macAddressString))
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
+    }
 
     private void spindir() {
         Spinner spinner = getView().findViewById(R.id.spinnerdir);
@@ -595,6 +616,7 @@ public class ControlFragment extends Fragment {
 
     private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarControl);
+
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle(nameString);
         ((MainActivity) getActivity()).getSupportActionBar().setSubtitle(ipAddressString);

@@ -16,7 +16,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <!--content-->
         <LinearLayout
             android:padding="@dimen/padding"
             android:orientation="vertical"
@@ -51,6 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
+
             <!--On/OFF Switch-->
                 <RelativeLayout
                     android:padding="@dimen/padding"
@@ -71,7 +72,7 @@
 
                                    </RelativeLayout>
 
-
+            <!--tempureter-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="284dp"
@@ -166,6 +167,7 @@
 
 
             </LinearLayout>
+
             <!--text Spinner Swing-->
             <LinearLayout
                 android:orientation="horizontal"
@@ -174,22 +176,26 @@
 
 
                 <TextView
-
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/margin"
                     android:textSize="@dimen/h3"
-                    android:text="           Fan Status"
-                    android:layout_width="165dp"
-                    android:layout_height="match_parent" />
+                    android:text="Fan Status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
 
                 <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/margin"
                     android:textSize="@dimen/h3"
-                    android:text="           Swing Mode"
-                    android:layout_width="165dp"
-                    android:layout_height="match_parent" />
+                    android:text="Swing Mode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>
+
             <!--Spinner Swing-->
             <LinearLayout
                 android:orientation="horizontal"
@@ -210,6 +216,72 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
+
+            <!--Scdu and setback-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--Scdu-->
+
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imgScdue"
+
+                        android:src="@drawable/ic_action_scdue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:clickable="true"
+                        android:id="@+id/txtscdule"
+                        android:layout_gravity="center_vertical"
+                        android:text="  Schduele"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+
+                </LinearLayout>
+
+
+                <!--Set back-->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+
+                        android:src="@drawable/ic_action_set_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:clickable="true"
+                        android:id="@+id/txtSetBack"
+                        android:layout_gravity="center_vertical"
+                        android:text="  Set Back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>
