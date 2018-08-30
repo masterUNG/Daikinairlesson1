@@ -97,5 +97,6 @@ public class AddAirFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_air, container, false);
 
         return view;
+
     }
 }
