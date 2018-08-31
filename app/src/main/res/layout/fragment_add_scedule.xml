@@ -19,11 +19,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--Space-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:gravity="right"
+                    android:text=""
+                    android:textSize="@dimen/h2"/>
+
+
+            </LinearLayout>
+
             <!--Choose time-->
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+
+
 
                 <!--Show time-->
                 <TextView
@@ -32,7 +51,7 @@
                     android:layout_weight="5"
                     android:textSize="@dimen/h1"
                     android:textStyle="bold"
-                    android:text="15:30"
+                    android:text="25:00"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
 
@@ -47,15 +66,233 @@
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </LinearLayout>
+
+
+            <!--Space-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:gravity="right"
+                    android:text=""
+                    android:textSize="@dimen/h2"/>
+
+
+            </LinearLayout>
+
+
             <!--On/Off-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:gravity="right"
+                    android:text="Power"
+                    android:textSize="@dimen/h1"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="4"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
 
             <!--Mode-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h2"
+                    android:text="Mode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spinnermode"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
             <!--temp-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h2"
+                    android:text="Temp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_weight="3"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spinnertemp"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="3"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
             <!--fan-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h2"
+                    android:text="Fan Speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_weight="2"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spinnerfrate"
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="2"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
             <!--Swing-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin"
+                    android:textSize="@dimen/h2"
+                    android:text="Swing driection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spinnerfdir"
+                    android:layout_weight="2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:text=""
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
