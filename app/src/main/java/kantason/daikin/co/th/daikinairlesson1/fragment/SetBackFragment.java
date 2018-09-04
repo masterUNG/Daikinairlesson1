@@ -8,9 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
 
 
 public class SetBackFragment extends Fragment {
@@ -44,11 +47,21 @@ public class SetBackFragment extends Fragment {
         createToolbar();
 
 
-
-
+//        setback
+        setbackspin();
 
 
     }  // main methord
+
+    private void setbackspin() {
+        Spinner spinner = getView().findViewById(R.id.spinnersetemp);
+        MyConstant myConstant = new MyConstant();
+        String[] strings = myConstant.getSettemp_String();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+    }
 
     private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarSetback);

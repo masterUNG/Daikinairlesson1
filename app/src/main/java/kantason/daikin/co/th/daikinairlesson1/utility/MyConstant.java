@@ -14,9 +14,11 @@ public class MyConstant {
 
 
 
-
+    private String [] mode_String = new String[]{"FAN","Cool","DRY"};
+    private String[] temp_String = new String[]{"18","19","20","21","22","23","24","25","26","27","28","29","30","31","32"};
     private String[] frateStrings = new String[]{"Auto","Silent","Level 1","Level 2","Level 3","Level 4","Level 5"};
     private String[] fDirStrings = new String[]{"OFF","Vertical","Horizontal","3D"};
+    private String[] settemp_String = new String[]{"20","21","22","23","24","25","26","27","28","29","30","31","32"};
 
     public String getUrlSetModeString() { return urlSetModeString; }
 
@@ -41,4 +43,18 @@ public class MyConstant {
     public String getUrlInfoString() { return urlInfoString; }
 
     public String geturlgetroomtemp() { return urlgetroomtemp; }
+
+    public String[] getMode_Strings() {
+        return mode_String;
+    }
+
+    public String[] getTemp_String() {
+        return temp_String;
+    }
+
+    public String[] getSettemp_String() {
+        return settemp_String;
+    }
+
+
 }   // main class

@@ -6,13 +6,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -22,12 +26,14 @@ import java.util.Calendar;
 
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
 
 public class AddSceduleFragment extends Fragment{
 
     private String idString, nameString, ipAddressString, macAddressString;
     private TextView showTimeTextView;
-    private String timeString;
+    private String timeString,powString, stempString, f_rateString,
+            f_dirString ,modeString,roomtempString,mode_s,frateS,fdirS;
     private int hourAnInt, minusAnInt, secondAnInt;
 
 
@@ -65,7 +71,95 @@ public class AddSceduleFragment extends Fragment{
         setTimeController();
 
 
+//        setsomethimg
+
+
+
+
+//        Mode
+
+        modespin();
+
+
+//        Temp
+        tempspin();
+
+
+//        Fan
+        fanspin();
+
+
+//        Swing
+        swingspin();
+
+
     }   // Main method
+
+    private void swingspin() {
+        Spinner spinner = getView().findViewById(R.id.spinnerfdir);
+        MyConstant myConstant = new MyConstant();
+        String[] strings = myConstant.getfDirStrings();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+
+//        spinner.setSelection(Integer.parseInt(f_dirString.trim()));
+    }
+
+    private void fanspin() {
+        Spinner spinner = getView().findViewById(R.id.spinnerfrate);
+        MyConstant myConstant = new MyConstant();
+            String[] strings = myConstant.getFrateStrings();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+    }
+
+    private void tempspin() {
+        Spinner spinner = getView().findViewById(R.id.spinnertemp);
+        MyConstant myConstant = new MyConstant();
+            String[] strings = myConstant.getTemp_String();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+    }
+
+    private void modespin() {
+        Spinner spinner = getView().findViewById(R.id.spinnermode);
+        MyConstant myConstant = new MyConstant();
+            String[] strings = myConstant.getMode_Strings();
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,strings);
+        spinner.setAdapter(stringArrayAdapter);
+
+
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String modes = parent.getItemAtPosition(position).toString();
+//
+//                if (modes.equals("FAN")) {
+//                    mode_s = "0";
+//                } else if (modes.equals("Cool")) {
+//                    mode_s = "1";
+//                } else {
+//                    mode_s = "2";
+//                }
+//
+//                if (frateS.equals(modeString)) {
+//
+//                }
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+    }
 
     private void setTimeController() {
         Button button = getView().findViewById(R.id.bntSetTime);
@@ -117,6 +211,9 @@ public class AddSceduleFragment extends Fragment{
         secondAnInt = calendar.get(Calendar.SECOND);
 
         showTime(timeString);
+
+
+
     }
 
     private void showTime(String timeString) {
