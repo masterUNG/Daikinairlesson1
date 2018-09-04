@@ -108,8 +108,25 @@ public class ControlFragment extends Fragment {
 //        Scduld Controller
         scduldController();
 
+//        Setback
+        setback();
 
     }   // main method
+
+    private void setback() {
+        TextView textView = getView().findViewById(R.id.txtSetBack);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentMainFragment,SetBackFragment.setbackInstance(idString,nameString,ipAddressString,macAddressString))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+    }
 
     private void scduldController() {
         TextView textView = getView().findViewById(R.id.txtscdule);
