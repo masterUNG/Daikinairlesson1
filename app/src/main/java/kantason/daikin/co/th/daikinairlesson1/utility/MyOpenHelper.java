@@ -15,6 +15,11 @@ public class MyOpenHelper extends SQLiteOpenHelper{
             "IPAddress Text, " +
             "MacAddress Text);";
 
+    private static final String detailControllerSTRING = "Create Table controllerTABLE (" +
+            "id Integer Primary Key, " +
+            "IdAir Text, " +
+            "AirData Text);";
+
     public MyOpenHelper(Context context) {
         super(context,nameDatabaseSTRING,null,versionDatabaseINT);
         this.context = context;
@@ -24,6 +29,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(detailDatabaseString);
+        db.execSQL(detailControllerSTRING);
 
     }
 

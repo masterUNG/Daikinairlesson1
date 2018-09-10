@@ -11,6 +11,8 @@ public class MyConstant {
     private String urlSetfrateString = "/aircon/set_control_info?f_rate=";
     private String urlSetfdirString = "/aircon/set_control_info?f_dir=";
 
+    private String defaultSchedult = "[20:00, 1, 1, 25, 5, 0]";
+
 
 
 
@@ -19,6 +21,14 @@ public class MyConstant {
     private String[] frateStrings = new String[]{"Auto","Silent","Level 1","Level 2","Level 3","Level 4","Level 5"};
     private String[] fDirStrings = new String[]{"OFF","Vertical","Horizontal","3D"};
     private String[] settemp_String = new String[]{"20","21","22","23","24","25","26","27","28","29","30","31","32"};
+
+
+//    Getter
+
+
+    public String getDefaultSchedult() {
+        return defaultSchedult;
+    }
 
     public String getUrlSetModeString() { return urlSetModeString; }
 

@@ -16,7 +16,18 @@ public class MyManage {
         myOpenHelper = new MyOpenHelper(context);
         sqLiteDatabase = myOpenHelper.getWritableDatabase();
 
+    }   // Constructor
+
+    public long addController(String IdAirString, String airDataString) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("IdAir", IdAirString);
+        contentValues.put("AirData", airDataString);
+        return sqLiteDatabase.insert("controllerTABLE", null, contentValues);
+
     }
+
+
     public  long addValue(String nameString, String ipAddressString, String macAddressString) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Name", nameString);

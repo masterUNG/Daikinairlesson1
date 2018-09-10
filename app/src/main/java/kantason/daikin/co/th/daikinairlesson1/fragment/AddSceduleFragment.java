@@ -1,6 +1,9 @@
 package kantason.daikin.co.th.daikinairlesson1.fragment;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +32,8 @@ import java.util.Calendar;
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 
 public class AddSceduleFragment extends Fragment {
 
@@ -37,7 +42,8 @@ public class AddSceduleFragment extends Fragment {
     private String timeString, powString, stempString, f_rateString,
             f_dirString, modeString, roomtempString, mode_s, frateS, fdirS;
     private int hourAnInt, minusAnInt, secondAnInt;
-    private ArrayList<String> dataStringArrayList;
+    private ArrayList<String> dataStringArrayList, currentAirStringArrayList;
+    private String currentAirString;
 
 
     public static AddSceduleFragment addSceduleInstance(String idString,
@@ -98,7 +104,15 @@ public class AddSceduleFragment extends Fragment {
     }   // Main method
 
     private void setupOnOff() {
+
         final SwitchCompat switchCompat = getView().findViewById(R.id.switchOnOff);
+
+        int powerInt = Integer.parseInt(currentAirStringArrayList.get(1));
+        if (powerInt == 1){
+            switchCompat.setChecked(true);
+        }
+
+
         switchCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,13 +130,45 @@ public class AddSceduleFragment extends Fragment {
     private void swingspin() {
         Spinner spinner = getView().findViewById(R.id.spinnerfdir);
         MyConstant myConstant = new MyConstant();
-        String[] strings = myConstant.getfDirStrings();
+        final String[] strings = myConstant.getfDirStrings();
 
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, strings);
         spinner.setAdapter(stringArrayAdapter);
 
-//        spinner.setSelection(Integer.parseInt(f_dirString.trim()));
+        spinner.setSelection(Integer.parseInt(currentAirStringArrayList.get(5)));
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                f_dirString = findfDir(strings[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }   // swingspin
+
+    private String findfDir(String string) {
+
+        String resultString = null;
+
+        if (string.equals("OFF")) {
+            resultString = "0";
+        } else if (string.equals("Vertical")) {
+            resultString = "1";
+        } else if (string.equals("Horizontal")) {
+            resultString = "2";
+        } else {
+            resultString = "3";
+        }
+
+        return resultString;
     }
 
     private void fanspin() {
@@ -133,6 +179,26 @@ public class AddSceduleFragment extends Fragment {
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, strings);
         spinner.setAdapter(stringArrayAdapter);
+
+        int position = 0;
+        String currentString = currentAirStringArrayList.get(4);
+        if (currentString.equals("A")) {
+            position = 0;
+        } else if (currentString.equals("B")) {
+            position = 1;
+        } else if (currentString.equals("3")) {
+            position = 2;
+        }else if (currentString.equals("4")) {
+            position = 3;
+        }else if (currentString.equals("5")) {
+            position = 4;
+        } else if (currentString.equals("6")) {
+            position = 5;
+        } else {
+            position = 6;
+        }
+
+        spinner.setSelection(position);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -165,7 +231,7 @@ public class AddSceduleFragment extends Fragment {
             resultString = "5";
         } else if (string.equals("Level 4")) {
             resultString = "6";
-        }else  {
+        } else {
             resultString = "7";
         }
 
@@ -181,6 +247,11 @@ public class AddSceduleFragment extends Fragment {
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, strings);
         spinner.setAdapter(stringArrayAdapter);
+
+        int i = Integer.parseInt(currentAirStringArrayList.get(3)) - 18;
+
+
+        spinner.setSelection(i);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -198,37 +269,47 @@ public class AddSceduleFragment extends Fragment {
     }   // tempspin
 
     private void modespin() {
+
         Spinner spinner = getView().findViewById(R.id.spinnermode);
         MyConstant myConstant = new MyConstant();
-        String[] strings = myConstant.getMode_Strings();
+        final String[] strings = myConstant.getMode_Strings();
+
+
+        Log.d("10SepV1", "Selection on modespin --> " + Integer.parseInt(currentAirStringArrayList.get(2)));
 
         ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, strings);
         spinner.setAdapter(stringArrayAdapter);
 
+        spinner.setSelection(Integer.parseInt(currentAirStringArrayList.get(2)));
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String modes = parent.getItemAtPosition(position).toString();
-//
-//                if (modes.equals("FAN")) {
-//                    mode_s = "0";
-//                } else if (modes.equals("Cool")) {
-//                    mode_s = "1";
-//                } else {
-//                    mode_s = "2";
-//                }
-//
-//                if (frateS.equals(modeString)) {
-//
-//                }
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                modeString = findMode(strings[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }   // modespin
+
+    private String findMode(String string) {
+
+        String resultString = null;
+
+        if (string.equals("FAN")) {
+            resultString = "0";
+        } else if (string.equals("Cool")) {
+            resultString = "1";
+        } else {
+            resultString = "2";
+        }
+
+        return resultString;
     }
 
     private void setTimeController() {
@@ -280,7 +361,8 @@ public class AddSceduleFragment extends Fragment {
         minusAnInt = calendar.get(Calendar.MINUTE);
         secondAnInt = calendar.get(Calendar.SECOND);
 
-        showTime(timeString);
+//        showTime(timeString);
+        showTime(currentAirStringArrayList.get(0));
 
 
     }
@@ -310,13 +392,23 @@ public class AddSceduleFragment extends Fragment {
         dataStringArrayList = new ArrayList<>();
         dataStringArrayList.add(timeString);
         dataStringArrayList.add(powString);
+        dataStringArrayList.add(modeString);
         dataStringArrayList.add(stempString);
         dataStringArrayList.add(f_rateString);
         dataStringArrayList.add(f_dirString);
-        dataStringArrayList.add(modeString);
+
 
         Log.d("10SepV1", "dataArrayList ==> " + dataStringArrayList.toString());
 
+//        SQLiteDatabase sqLiteDatabase = getActivity().openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
+//                Context.MODE_PRIVATE, null);
+//        sqLiteDatabase.execSQL("UPDATE controllerTABLE SET AirData='" + dataStringArrayList.toString() + "' WHERE IdAir='" + idString + "'");
+
+        MyManage myManage = new MyManage(getActivity());
+        myManage.addController(idString, dataStringArrayList.toString());
+
+
+        getActivity().getSupportFragmentManager().popBackStack();
 
     }   // saveController
 
@@ -335,7 +427,34 @@ public class AddSceduleFragment extends Fragment {
         ipAddressString = getArguments().getString("IpAddress");
         macAddressString = getArguments().getString("MacAddress");
 
-    }
+        SQLiteDatabase sqLiteDatabase = getActivity().openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
+                Context.MODE_PRIVATE, null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM controllerTABLE", null);
+        cursor.moveToFirst();
+        for (int i = 0; i < cursor.getCount(); i += 1) {
+
+            if (idString.equals(cursor.getString(1))) {
+                currentAirString = cursor.getString(2);
+            }
+
+            cursor.moveToNext();
+
+        }   // for
+        Log.d("10SepV1", "currentAir ==> " + currentAirString);
+
+        currentAirStringArrayList = new ArrayList<>();
+        currentAirString = currentAirString.substring(1, currentAirString.length() - 1);
+        Log.d("10SepV1", "cut Head Tail ==> " + currentAirString);
+        String[] strings = currentAirString.split(",");
+        for (String s : strings) {
+            currentAirStringArrayList.add(s.trim());
+        }   // for
+        Log.d("10SepV1", "ArrayList ==> " + currentAirStringArrayList.toString());
+
+        powString = currentAirStringArrayList.get(1);
+
+
+    }   // getValue
 
     private void createToolbar() {
         Toolbar toolbar = getView().findViewById(R.id.toolbarScedule);
