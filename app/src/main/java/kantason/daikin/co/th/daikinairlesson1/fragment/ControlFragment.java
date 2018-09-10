@@ -111,6 +111,9 @@ public class ControlFragment extends Fragment {
 //        Setback
         setback();
 
+
+
+
     }   // main method
 
     private void setback() {
