@@ -1,6 +1,9 @@
 package kantason.daikin.co.th.daikinairlesson1.fragment;
 
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +19,9 @@ import android.widget.EditText;
 import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyAlert;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyConstant;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyManage;
+import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 
 public class AddAirFragment extends Fragment {
 
@@ -60,6 +65,17 @@ public class AddAirFragment extends Fragment {
 //        No Space
             MyManage myManage = new MyManage(getActivity());
             myManage.addValue(naneString,ipString,macString);
+
+            SQLiteDatabase sqLiteDatabase = getActivity().openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
+                    Context.MODE_PRIVATE, null);
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM airTABLE", null);
+            cursor.moveToFirst();
+            cursor.moveToLast();
+            String idUserString = cursor.getString(0);
+            MyConstant myConstant = new MyConstant();
+            myManage.addController(idUserString, myConstant.getDefaultSchedult());
+
+
             getActivity().getSupportFragmentManager().popBackStack();
 
 
