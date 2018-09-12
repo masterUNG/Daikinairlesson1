@@ -73,7 +73,8 @@ public class AddAirFragment extends Fragment {
             cursor.moveToLast();
             String idUserString = cursor.getString(0);
             MyConstant myConstant = new MyConstant();
-            myManage.addController(idUserString, myConstant.getDefaultSchedult());
+            myManage.addController(idUserString, myConstant.getDefaultSchedult(),"1");
+            myManage.addSetback(idUserString, "2", "5");
 
 
             getActivity().getSupportFragmentManager().popBackStack();

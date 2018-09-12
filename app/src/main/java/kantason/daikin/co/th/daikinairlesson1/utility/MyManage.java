@@ -18,11 +18,23 @@ public class MyManage {
 
     }   // Constructor
 
-    public long addController(String IdAirString, String airDataString) {
+    public long addSetback(String IdSAirString, String EnableSString, String SetbackDataString){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("IdSAir",IdSAirString);
+        contentValues.put("SetbackData",SetbackDataString);
+        contentValues.put("EnableS",EnableSString);
+        return sqLiteDatabase.insert("setbackTABLE", null, contentValues);
+
+    }
+
+    public long addController(String IdAirString, String airDataString
+            , String EnableTString) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("IdAir", IdAirString);
         contentValues.put("AirData", airDataString);
+        contentValues.put("EnableT", EnableTString);
+
         return sqLiteDatabase.insert("controllerTABLE", null, contentValues);
 
     }

@@ -10,10 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -22,11 +24,14 @@ import kantason.daikin.co.th.daikinairlesson1.MainActivity;
 import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 import kantason.daikin.co.th.daikinairlesson1.utility.SceduleAdapter;
+import kantason.daikin.co.th.daikinairlesson1.utility.SwitchAdapter;
 
 public class SceduleFragment extends Fragment {
 
 
+    private  int amountAnInt;
     private String idString, nameString, ipAddressString, macAddressString;
+
 
     public static SceduleFragment sceduleInstance(String idString,
                                                   String nameString,
@@ -54,13 +59,22 @@ public class SceduleFragment extends Fragment {
         createToolbar();
 
 //        Add Controller
-        addController();
+//        addController();
 
 //        Create ListView
         createListView();
 
+//        SwitchEN
+        switchEN();
 
     }  // main methord
+
+    private void switchEN() {
+        ListView listView = getView().findViewById(R.id.listViewSwitch);
+        SwitchAdapter switchAdapter = new SwitchAdapter(getActivity(),
+                R.drawable.ic_action_switch_off, amountAnInt);
+        listView.setAdapter(switchAdapter);
+    }
 
     private void createListView() {
         ListView listView = getView().findViewById(R.id.listViewScedule);
@@ -74,14 +88,18 @@ public class SceduleFragment extends Fragment {
         ArrayList<String> timeStringArrayList = new ArrayList<>();
         ArrayList<String> switchStringArrayList = new ArrayList<>();
         ArrayList<String> idStringArrayList = new ArrayList<>();
+        ArrayList<String> EnableTStringArrayList = new ArrayList<>();
 
+        amountAnInt = cursor.getCount();
 
         for (int i = 0; i < cursor.getCount(); i += 1) {
             airDataStringArrayList.add(cursor.getString(2));
             idStringArrayList.add(cursor.getString(0));
+            EnableTStringArrayList.add(cursor.getString(3));
             cursor.moveToNext();
         }   // for
         Log.d("10SepV2", "airData ==> " + airDataStringArrayList.toString());
+        Log.d("10SepV2", "EnableT ==>" + EnableTStringArrayList.toString());
 
         for (int i = 0; i < airDataStringArrayList.size(); i += 1) {
 
@@ -129,22 +147,48 @@ public class SceduleFragment extends Fragment {
         return stringArrayList;
     }
 
-    private void addController() {
-        Button button = getView().findViewById(R.id.btnAddScedule);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//    private void addController() {
+//        Button button = getView().findViewById(R.id.btnAddScedule);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                getActivity()
+//                        .getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.contentMainFragment, AddSceduleFragment.addSceduleInstance(
+//                                idString, nameString, ipAddressString, macAddressString))
+//                        .addToBackStack(null)
+//                        .commit();
+//
+//            }
+//        });
+//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-                getActivity()
+        if (item.getItemId() == R.id.itemAddSchduleAir) {
+//            to do
+
+            getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.contentMainFragment, AddSceduleFragment.addSceduleInstance(
                                 idString, nameString, ipAddressString, macAddressString))
                         .addToBackStack(null)
                         .commit();
+            return true;
+        }
 
-            }
-        });
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+
+        inflater.inflate(R.menu.menu_list_add_schdule, menu);
     }
 
     private void createToolbar() {

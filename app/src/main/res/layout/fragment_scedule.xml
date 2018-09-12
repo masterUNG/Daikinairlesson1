@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,37 +15,64 @@
         android:layout_height="?attr/actionBarSize">
 
         <!--Switch-->
-        <android.support.v7.widget.SwitchCompat
-            android:layout_gravity="right"
-            android:id="@+id/switchOnOff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<android.support.v7.widget.SwitchCompat-->
+            <!--android:layout_gravity="right"-->
+            <!--android:id="@+id/switchOnOff"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
+
 
     </android.support.v7.widget.Toolbar>
 
 
 
     <!--Content-->
-    <RelativeLayout
+
+
+
+    <!--</LinearLayout>-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="@dimen/padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--List View-->
-        <ListView
-            android:id="@+id/listViewScedule"
-            android:layout_above="@+id/btnAddScedule"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--tittle-->
+        <LinearLayout
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <!--title-->
+            <ListView
+                android:id="@+id/listViewScedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
-        <!--Button-->
-        <Button
-            android:id="@+id/btnAddScedule"
-            android:textSize="@dimen/h1"
-            android:text="+"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    </RelativeLayout>
+        <!--Switch group-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+
+                <!--enable-->
+                <ListView
+                    android:id="@+id/listViewSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
 </LinearLayout>

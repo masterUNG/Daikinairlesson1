@@ -18,7 +18,14 @@ public class MyOpenHelper extends SQLiteOpenHelper{
     private static final String detailControllerSTRING = "Create Table controllerTABLE (" +
             "id Integer Primary Key, " +
             "IdAir Text, " +
-            "AirData Text);";
+            "AirData Text, " +
+            "EnableT Text);";
+
+    private static final String detailsetbackSTRING = "Create Table setbackTABLE (" +
+            "id Integer Primary Key, " +
+            "IdSAir Text, " +
+            "SetbackData Text, " +
+            "EnableS Text);";
 
     public MyOpenHelper(Context context) {
         super(context,nameDatabaseSTRING,null,versionDatabaseINT);
@@ -30,6 +37,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
 
         db.execSQL(detailDatabaseString);
         db.execSQL(detailControllerSTRING);
+        db.execSQL(detailsetbackSTRING);
 
     }
 

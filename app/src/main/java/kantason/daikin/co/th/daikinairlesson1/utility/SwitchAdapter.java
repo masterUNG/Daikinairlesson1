@@ -44,6 +44,8 @@ public class SwitchAdapter extends BaseAdapter{
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.listview_switch, parent, false);
 
+
+
         ImageView imageView = view.findViewById(R.id.imvSwitch);
         imageView.setImageResource(sourceImageAnInt);
 

@@ -405,7 +405,7 @@ public class AddSceduleFragment extends Fragment {
 //        sqLiteDatabase.execSQL("UPDATE controllerTABLE SET AirData='" + dataStringArrayList.toString() + "' WHERE IdAir='" + idString + "'");
 
         MyManage myManage = new MyManage(getActivity());
-        myManage.addController(idString, dataStringArrayList.toString());
+        myManage.addController(idString, dataStringArrayList.toString(),"1");
 
 
         getActivity().getSupportFragmentManager().popBackStack();
@@ -440,7 +440,7 @@ public class AddSceduleFragment extends Fragment {
             cursor.moveToNext();
 
         }   // for
-        Log.d("10SepV1", "currentAir ==> " + currentAirString);
+        Log.d("10SepV3", "currentAir ==> " + currentAirString);
 
         currentAirStringArrayList = new ArrayList<>();
         currentAirString = currentAirString.substring(1, currentAirString.length() - 1);
