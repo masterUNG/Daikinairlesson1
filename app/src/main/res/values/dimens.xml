@@ -6,4 +6,5 @@
 
     <dimen name="padding">12dp</dimen>
     <dimen name="margin">16dp</dimen>
+    <dimen name="margin_switch">20dp</dimen>
 </resources>

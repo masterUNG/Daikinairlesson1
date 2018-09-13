@@ -25,12 +25,14 @@ import kantason.daikin.co.th.daikinairlesson1.R;
 import kantason.daikin.co.th.daikinairlesson1.utility.MyOpenHelper;
 import kantason.daikin.co.th.daikinairlesson1.utility.SceduleAdapter;
 import kantason.daikin.co.th.daikinairlesson1.utility.SwitchAdapter;
+import kantason.daikin.co.th.daikinairlesson1.utility.SwitchSchduleAdapter;
 
 public class SceduleFragment extends Fragment {
 
 
     private  int amountAnInt;
     private String idString, nameString, ipAddressString, macAddressString;
+    private ArrayList<String> enableTStringArrayList;
 
 
     public static SceduleFragment sceduleInstance(String idString,
@@ -71,9 +73,50 @@ public class SceduleFragment extends Fragment {
 
     private void switchEN() {
         ListView listView = getView().findViewById(R.id.listViewSwitch);
-        SwitchAdapter switchAdapter = new SwitchAdapter(getActivity(),
-                R.drawable.ic_action_switch_off, amountAnInt);
-        listView.setAdapter(switchAdapter);
+
+        SwitchSchduleAdapter switchSchduleAdapter = new SwitchSchduleAdapter(getActivity(), enableTStringArrayList);
+
+        listView.setAdapter(switchSchduleAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String[] strings = new String[]{"0", "1"};
+                String newSwitch = null;
+
+                Log.d("13SepV1", "Current Switch ==> " + enableTStringArrayList.get(position));
+                int i = Integer.parseInt(enableTStringArrayList.get(position).trim());
+
+                switch (i) {
+                    case 0:
+                        newSwitch = strings[1];
+                        addNewSwitchToSQlite(newSwitch, position);
+                        break;
+                    case 1:
+                        newSwitch = strings[0];
+                        addNewSwitchToSQlite(newSwitch, position);
+                        break;
+                }
+
+            }
+        });
+
+
+    }
+
+    private void addNewSwitchToSQlite(String newSwitch, int position) {
+
+        Log.d("13SepV1", "newSwitch ==> " + newSwitch);
+        Log.d("13SepV1", "position ==> " + position);
+
+        SQLiteDatabase sqLiteDatabase = getActivity().openOrCreateDatabase(MyOpenHelper.nameDatabaseSTRING,
+                Context.MODE_PRIVATE, null);
+        sqLiteDatabase.execSQL("UPDATE controllerTABLE SET EnableT='" + newSwitch + "' WHERE id='" + Integer.toString(position + 1) + "'");
+
+        createListView();
+        switchEN();
+
     }
 
     private void createListView() {
@@ -84,22 +127,24 @@ public class SceduleFragment extends Fragment {
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM controllerTABLE WHERE IdAir='" + idString + "'", null);
         cursor.moveToFirst();
 
-        ArrayList<String> airDataStringArrayList = new ArrayList<>();
+        final ArrayList<String> airDataStringArrayList = new ArrayList<>();
         ArrayList<String> timeStringArrayList = new ArrayList<>();
         ArrayList<String> switchStringArrayList = new ArrayList<>();
-        ArrayList<String> idStringArrayList = new ArrayList<>();
-        ArrayList<String> EnableTStringArrayList = new ArrayList<>();
+        final ArrayList<String> idStringArrayList = new ArrayList<>();
+        ArrayList<String> StringArrayList = new ArrayList<>();
+
+        enableTStringArrayList = new ArrayList<>();
 
         amountAnInt = cursor.getCount();
 
         for (int i = 0; i < cursor.getCount(); i += 1) {
             airDataStringArrayList.add(cursor.getString(2));
             idStringArrayList.add(cursor.getString(0));
-            EnableTStringArrayList.add(cursor.getString(3));
+            enableTStringArrayList.add(cursor.getString(3));
             cursor.moveToNext();
         }   // for
         Log.d("10SepV2", "airData ==> " + airDataStringArrayList.toString());
-        Log.d("10SepV2", "EnableT ==>" + EnableTStringArrayList.toString());
+
 
         for (int i = 0; i < airDataStringArrayList.size(); i += 1) {
 
@@ -121,6 +166,19 @@ public class SceduleFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.contentMainFragment,
+                                EditSceduleFragment.editSceduleInstant(airDataStringArrayList.get(position),
+                                        idString,
+                                        nameString,
+                                        ipAddressString,
+                                        macAddressString,
+                                        idStringArrayList.get(position)))
+                        .addToBackStack(null)
+                        .commit();
+
             }
         });
 
@@ -130,8 +188,17 @@ public class SceduleFragment extends Fragment {
     private String myFindSwitch(String myString) {
 
         String[] strings = new String[]{"Off", "On"};
+        int i = 0;
 
-        return strings[Integer.parseInt(myString.trim())];
+        try {
+
+            i = Integer.parseInt(myString.trim());
+
+        } catch (Exception e) {
+            i = 0;
+        }
+
+        return strings[i];
     }
 
     private ArrayList<String> myFindArrayList(String arrayString) {
